@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
  * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include <dt-bindings/clock/qcom,cpu-osm.h>
 
 / {
-	model = "Qualcomm Tecsshnologies, Inc. SDM 660";
+	model = "Qualcomm Technologies wayne, Inc. SDM 660";
 	compatible = "qcom,sdm660";
 	qcom,msm-id = <317 0x0>;
 	interrupt-parent = <&intc>;
@@ -308,7 +308,15 @@
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/vendor";
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait,slotselect,verify";
+					fsmgr_flags = "wait,verify";
+					status = "ok";
+				};
+				system {
+					compatible = "android,system";
+					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/system";
+					type = "ext4";
+					mnt_flags = "ro,barrier=1,discard";
+					fsmgr_flags = "wait,verify";
 					status = "ok";
 				};
 			};

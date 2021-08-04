@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
  * Copyright (C) 2021 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include <dt-bindings/clock/qcom,cpu-osm.h>
 
 / {
-	model = "Qualcomm Tecsshnologies, Inc. SDM 660";
+	model = "Qualcomm Technologies, Inc. SDM 660";
 	compatible = "qcom,sdm660";
 	qcom,msm-id = <317 0x0>;
 	interrupt-parent = <&intc>;
@@ -301,6 +301,11 @@
 	firmware: firmware {
 		android {
 			compatible = "android,firmware";
+				vbmeta {
+				compatible = "android,vbmeta";
+				parts = "vbmeta,boot,system,vendor,dtbo,recovery";
+			};
+
 			fstab {
 				compatible = "android,fstab";
 				vendor {
@@ -308,7 +313,7 @@
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/vendor";
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait,slotselect,verify";
+					fsmgr_flags = "wait,avb";
 					status = "ok";
 				};
 			};
@@ -410,11 +415,11 @@
 		};
 
 		dfps_data_mem: dfps_data_mem@0x9f800000 {
-		       reg = <0 0x9f800000 0 0x00001000>;
-		       label = "dfps_data_mem";
-		};
+ 			reg = <0 0x9f800000 0 0x00001000>;
+			label = "dfps_data_mem";
+ 		};
 
-pstore_reserve_mem: pstore_reserve_mem_region@0 {
+		pstore_reserve_mem: pstore_reserve_mem_region@0 {
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
@@ -889,7 +894,7 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;
 		qcom,bcl-hotplug-list = <&CPU6 &CPU7>;
-		qcom,bcl-soc-hotplug-list = <&CPU4 &CPU5 &CPU6 &CPU7>;
+		qcom,bcl-soc-hotplug-list = <&CPU5 &CPU7>;
 		qcom,ibat-monitor {
 			qcom,low-threshold-uamp = <3400000>;
 			qcom,high-threshold-uamp = <4200000>;
@@ -1590,12 +1595,11 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 		};
 	};
 
-	qcom,rmtfs_sharedmem@0 {
+	qcom,rmtfs_sharedmem@85e00000 {
 		compatible = "qcom,sharedmem-uio";
-		reg = <0x0 0x200000>;
+		reg = <0x85e00000 0x200000>;
 		reg-names = "rmtfs";
 		qcom,client-id = <0x00000001>;
-		qcom,guard-memory;
 	};
 
 	qcom,rmnet-ipa {
@@ -2121,7 +2125,6 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 		qcom,qdsp6v62-1-5;
 		memory-region = <&modem_fw_mem>;
 		qcom,mem-protect-id = <0xF>;
-		qcom,complete-ramdump;
 		qcom,cx-ipeak-vote;
 
 		/* GPIO inputs from mss */
@@ -2427,10 +2430,6 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 		"HS_RB_G1_L1", "HS_RB_G2_L1", "HS_RB_G3_L1",
 		"MAX";
 
-		pinctrl-names = "dev-reset-assert", "dev-reset-deassert";
-		pinctrl-0 = <&ufs_dev_reset_assert>;
-		pinctrl-1 = <&ufs_dev_reset_deassert>;
-
 		resets = <&clock_gcc GCC_UFS_BCR>;
 		reset-names = "core_reset";
 
@@ -2548,7 +2547,7 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 
 #include "sdm660-ion.dtsi"
 #include "sdm660-bus.dtsi"
-#include "msm-pm660_wayne.dtsi"
+#include "msm-pm660_f7a.dtsi"
 #include "msm-pm660l.dtsi"
 #include "msm-pm660-rpm-regulator.dtsi"
 #include "msm-pm660l-rpm-regulator.dtsi"
@@ -2646,7 +2645,7 @@ pstore_reserve_mem: pstore_reserve_mem_region@0 {
 
 #include "msm-arm-smmu-660.dtsi"
 #include "msm-arm-smmu-impl-defs-660.dtsi"
-#include "sdm660-common.dtsi"
+#include "sdm660-common_f7a.dtsi"
 #include "sdm660-blsp.dtsi"
 #include "msm-rdbg.dtsi"
 #include "sdm660-camera.dtsi"
