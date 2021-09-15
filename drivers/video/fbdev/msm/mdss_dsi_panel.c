@@ -2327,7 +2327,8 @@ static int mdss_dsi_parse_panel_features(struct device_node *np,
 	pinfo->dcs_cmd_by_left = of_property_read_bool(np,
 		"qcom,dcs-cmd-by-left");
 
-	pinfo->ulps_feature_enabled = true;
+	pinfo->ulps_feature_enabled = of_property_read_bool(np,
+		"qcom,ulps-enabled");
 	pr_debug("%s: ulps feature %s\n", __func__,
 		(pinfo->ulps_feature_enabled ? "enabled" : "disabled"));
 
